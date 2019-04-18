@@ -52,17 +52,25 @@ Its recommended to enable FACEBOOK_CELERY_STORE or disable FACEBOOK_STORE_FRIEND
             logger.warn(msg)
 
     # make sure the context processors are present
-    required = ['django_facebook.context_processors.facebook',
-                'django.core.context_processors.request']
-    context_processors = []
-    for setting in settings.TEMPLATES:
-        if 'OPTIONS' in setting:
-            if 'context_processors' in setting['OPTIONS']:
-                context_processors.append(setting['OPTIONS'])
-    for context_processor in required:
-        if context_processor not in context_processors:
-            logger.warn(
-                'Required context processor %s wasnt found', context_processor)
+    if hasattr(settings, 'TEMPLATE_CONTEXT_PROCESSORS'):
+        # Backwards-compatible for Django < 1.8
+        required = ['django_facebook.context_processors.facebook',
+                    'django.core.context_processors.request']
+        context_processors = settings.TEMPLATE_CONTEXT_PROCESSORS
+        for context_processor in required:
+            if context_processor not in context_processors:
+                logging.warn(
+                    'Required context processor %s wasnt found', context_processor)
+    else:
+        required = ['django_facebook.context_processors.facebook',
+                    'django.template.context_processors.request']
+        for index, template in enumerate(settings.TEMPLATES):
+            context_processors = template['OPTIONS']['context_processors']
+            for context_processor in required:
+                if context_processor not in context_processors:
+                    logging.warn(
+                        'Required context processor %s wasnt found in template %d',
+                        context_processor, index)
 
     backends = settings.AUTHENTICATION_BACKENDS
     required = 'django_facebook.auth_backends.FacebookBackend'
@@ -503,7 +511,7 @@ class OpenGraphShare(BaseModel):
     '''
     objects = model_managers.OpenGraphShareManager()
 
-    user = models.ForeignKey(get_user_model_setting())
+    user = models.ForeignKey(get_user_model_setting(), on_delete=models.CASCADE)
 
     # domain stores
     action_domain = models.CharField(max_length=255)
@@ -512,7 +520,7 @@ class OpenGraphShare(BaseModel):
     # what we are sharing, dict and object
     share_dict = models.TextField(blank=True, null=True)
 
-    content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    content_type = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField(blank=True, null=True)
     content_object = GenericForeignKey('content_type', 'object_id')
 
