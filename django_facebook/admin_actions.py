@@ -1,6 +1,4 @@
-from django.contrib import admin, messages
-from django.contrib.auth import models as auth_models
-from django import template
+from django.contrib import messages
 from collections import defaultdict
 import logging
 from django_facebook.utils import get_profile
