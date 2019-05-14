@@ -164,7 +164,7 @@ def _update_likes_and_friends(request, user, facebook):
                     exc_info=sys.exc_info(), extra={
                         'request': request,
                         'data': {
-                            'body': unicode(e),
+                            'body': str(e),
                         }
                     })
         transaction.savepoint_rollback(sid)

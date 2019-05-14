@@ -216,7 +216,7 @@ def get_facebook_graph(request=None, access_token=None, redirect_uri=None, raise
                             raise
                         else:
                             return None
-            elif request.user.is_authenticated():
+            elif request.user.is_authenticated:
                 # support for offline access tokens stored in the users profile
                 profile = try_get_profile(request.user)
                 access_token = get_user_attribute(
@@ -250,7 +250,7 @@ def _add_current_user_id(graph, user):
     if graph:
         graph.current_user_id = None
 
-        if user.is_authenticated():
+        if user.is_authenticated:
             profile = try_get_profile(user)
             facebook_id = get_user_attribute(user, profile, 'facebook_id')
             if facebook_id:
@@ -439,7 +439,7 @@ class FacebookUserConverter(object):
         data_dump_python = pformat(original_facebook_data)
         message_format = 'The following facebook data failed with error %s' \
                          '\n\n json %s \n\n python %s \n'
-        data_tuple = (unicode(e), data_dump, data_dump_python)
+        data_tuple = (str(e), data_dump, data_dump_python)
         message = message_format % data_tuple
         extra_data = {
             'data_dump': data_dump,

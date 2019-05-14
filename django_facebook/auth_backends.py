@@ -27,7 +27,7 @@ class FacebookBackend(backends.ModelBackend):
 
     '''
 
-    def authenticate(self, request, facebook_id=None, facebook_email=None):
+    def authenticate(self, request, facebook_id=None, facebook_email=None, **kwargs):
         '''
         Route to either the user or profile table depending on which type of user
         customization we are using
