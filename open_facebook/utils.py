@@ -4,7 +4,7 @@ import sys
 import functools
 import json
 
-from django.utils import six
+import six
 try:
     unicode = unicode
 except NameError:

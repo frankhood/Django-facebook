@@ -1,4 +1,4 @@
-from django.utils import six
+import six
 from functools import wraps
 try:
     # using compatible_datetime instead of datetime only

@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-from django.utils.encoding import python_2_unicode_compatible
 from django.conf import settings
 try:
     from django.contrib.contenttypes.fields import GenericForeignKey
@@ -113,7 +112,6 @@ class FACEBOOK_OG_STATE:
         pass
 
 
-@python_2_unicode_compatible
 class BaseFacebookModel(models.Model):
 
     '''
@@ -313,7 +311,6 @@ class FacebookModel(BaseFacebookModel):
 FacebookProfileModel = FacebookModel
 
 
-@python_2_unicode_compatible
 class FacebookUser(models.Model):
 
     '''
@@ -401,7 +398,6 @@ class BaseModelMetaclass(ModelBase):
         return super_new
 
 
-@python_2_unicode_compatible
 class BaseModel(models.Model):
 
     '''
@@ -427,7 +423,6 @@ class BaseModel(models.Model):
         abstract = True
 
 
-@python_2_unicode_compatible
 class CreatedAtAbstractBase(BaseModel):
 
     '''
