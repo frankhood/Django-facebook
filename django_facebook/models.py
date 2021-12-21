@@ -133,8 +133,8 @@ class BaseFacebookModel(models.Model):
     raw_data = models.TextField(blank=True, null=True)
 
     # the field which controls if we are sharing to facebook
-    facebook_open_graph = models.NullBooleanField(
-        help_text='Determines if this user want to share via open graph')
+    facebook_open_graph = models.BooleanField(
+        help_text='Determines if this user want to share via open graph', null=True)
 
     # set to true if we require a new access token
     new_token_required = models.BooleanField(default=False,
